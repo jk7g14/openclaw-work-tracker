@@ -52,7 +52,7 @@ def calc_day_hours(day):
     status = day.get("status", "normal")
 
     if status in ("holiday", "공휴일"):
-        return {"status": "holiday", "worked": 0, "credit": 0}
+        return {"status": "holiday", "worked": 0, "credit": VACATION_CREDIT}
 
     if status in ("vacation", "휴가"):
         return {"status": "vacation", "worked": 0, "credit": VACATION_CREDIT}
@@ -324,7 +324,7 @@ def main():
             found_today = True
             remaining_days.append(day)
         elif r["status"] == "holiday":
-            pass  # 공휴일은 무시
+            total_credit += r.get("credit", 0)
         elif found_today is False:
             # 오늘 이전 완료일
             total_credit += r.get("credit", 0)
